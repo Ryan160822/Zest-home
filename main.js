@@ -71,8 +71,8 @@ function renderStats() {
 }
 
 function renderTools() {
-  return SITE.tools.map(t => el(`
-    <section class="card ${t.cls} tool" id="tools">
+  return SITE.tools.map((t, i) => el(`
+    <section class="card ${t.cls} tool"${i === 0 ? ' id="tools"' : ''}>
       <div class="tool-icon">${t.icon}</div>
       <p class="label">工具</p>
       <p class="tool-name">${t.name}</p>
@@ -116,13 +116,6 @@ function init() {
   renderTools().forEach(c => bento.append(c));
   bento.append(renderFeatured());
   bento.append(renderArticles());
-  // 各卡片渲染函数在后续任务中依次实现并在此调用：
-  // bento.append(renderHero());
-  // bento.append(renderStatus());
-  // bento.append(renderStats());
-  // renderTools().forEach(c => bento.append(c));
-  // bento.append(renderFeatured());
-  // bento.append(renderArticles());
 }
 
 document.addEventListener('DOMContentLoaded', init);
