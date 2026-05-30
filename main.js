@@ -80,6 +80,17 @@ function renderTools() {
   `));
 }
 
+function renderFeatured() {
+  const f = SITE.featured;
+  return el(`
+    <section class="card c-featured featured span-2" id="works">
+      <span class="featured-badge">${f.badge}</span>
+      <h2 class="featured-title serif">${f.title}</h2>
+      <p class="featured-desc">${f.desc}</p>
+    </section>
+  `);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -88,6 +99,7 @@ function init() {
   bento.append(renderStatus());
   bento.append(renderStats());
   renderTools().forEach(c => bento.append(c));
+  bento.append(renderFeatured());
   // 各卡片渲染函数在后续任务中依次实现并在此调用：
   // bento.append(renderHero());
   // bento.append(renderStatus());
