@@ -109,3 +109,29 @@ a { color: inherit; text-decoration: none; }
   .bento { grid-template-columns: 1fr; }
   .span-2, .row-2 { grid-column: auto; grid-row: auto; }
 }
+
+/* ===== 导航 ===== */
+.nav {
+  position: relative;
+  z-index: 1;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 20px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-logo { font-size: 1.2rem; color: var(--text-strong); }
+.nav-links { display: flex; gap: 1.25rem; }
+.nav-links a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-body);
+  transition: color 0.2s var(--ease);
+}
+.nav-links a:hover { color: var(--accent); }
+
+@media (max-width: 480px) {
+  .nav { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .nav-links { gap: 1rem; }
+}
