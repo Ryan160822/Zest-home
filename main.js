@@ -91,6 +91,21 @@ function renderFeatured() {
   `);
 }
 
+function renderArticles() {
+  const items = SITE.articles.map(a => `
+    <li class="article-item">
+      <span class="article-date">${a.date}</span>
+      <span class="article-title">${a.title}</span>
+    </li>
+  `).join('');
+  return el(`
+    <section class="card c-articles span-2" id="articles">
+      <p class="label">最新文章</p>
+      <ul class="article-list">${items}</ul>
+    </section>
+  `);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -100,6 +115,7 @@ function init() {
   bento.append(renderStats());
   renderTools().forEach(c => bento.append(c));
   bento.append(renderFeatured());
+  bento.append(renderArticles());
   // 各卡片渲染函数在后续任务中依次实现并在此调用：
   // bento.append(renderHero());
   // bento.append(renderStatus());

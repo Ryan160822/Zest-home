@@ -230,3 +230,20 @@ a { color: inherit; text-decoration: none; }
 }
 .featured-title { font-size: 1.1rem; color: #2a3a5e; margin-bottom: 4px; }
 .featured-desc { font-size: 0.78rem; line-height: 1.5; color: #48587e; }
+
+/* ===== 文章卡 ===== */
+.c-articles { background: var(--c-articles); }
+.c-articles .label { color: #5a72b0; }
+.article-list { list-style: none; }
+.article-item {
+  display: flex; gap: 10px;
+  padding: 7px 0;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(120, 120, 150, 0.12);
+}
+.article-item:last-child { border-bottom: none; }
+.article-date {
+  font-weight: 800; white-space: nowrap;
+  color: #6a7cc0; min-width: 2.2em;
+}
+.article-title { font-weight: 600; color: var(--text-strong); line-height: 1.4; }
