@@ -168,3 +168,27 @@ a { color: inherit; text-decoration: none; }
   color: #5a72b0;
   border: 1px solid rgba(255, 255, 255, 0.55);
 }
+
+/* ===== 通用小标签 ===== */
+.label {
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+/* ===== 状态卡 ===== */
+.c-status { background: var(--c-status); }
+.c-status .label { color: #2f7a4e; }
+.status-text { font-size: 0.82rem; font-weight: 700; color: #1f5e3a; }
+.dot {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; background: #4caf7d; margin-right: 6px;
+  box-shadow: 0 0 0 3px rgba(76, 175, 125, 0.2);
+}
+.status-detail { font-size: 0.7rem; color: #2f7a4e; margin-top: 6px; }
+
+/* ===== 数据卡 ===== */
+.c-stats { background: var(--c-stats); }
+.c-stats .label { color: #6a4fa0; }
+.big-num { font-size: 2rem; line-height: 1; color: #42286e; margin: 4px 0; }
+.stats-sub { font-size: 0.7rem; color: #8570b0; }

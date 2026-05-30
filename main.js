@@ -48,11 +48,35 @@ function renderHero() {
   `);
 }
 
+function renderStatus() {
+  const s = SITE.status;
+  return el(`
+    <section class="card c-status">
+      <p class="label">状态</p>
+      <p class="status-text"><span class="dot"></span>${s.text}</p>
+      <p class="status-detail">${s.detail}</p>
+    </section>
+  `);
+}
+
+function renderStats() {
+  const g = SITE.github;
+  return el(`
+    <section class="card c-stats">
+      <p class="label">GitHub</p>
+      <p class="big-num serif">${g.repos}</p>
+      <p class="stats-sub">repos · ⭐${g.stars}</p>
+    </section>
+  `);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
   bento.innerHTML = '';
   bento.append(renderHero());
+  bento.append(renderStatus());
+  bento.append(renderStats());
   // 各卡片渲染函数在后续任务中依次实现并在此调用：
   // bento.append(renderHero());
   // bento.append(renderStatus());
