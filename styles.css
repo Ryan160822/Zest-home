@@ -135,3 +135,36 @@ a { color: inherit; text-decoration: none; }
   .nav { flex-direction: column; gap: 10px; align-items: flex-start; }
   .nav-links { gap: 1rem; }
 }
+
+/* ===== Hero 卡 ===== */
+.hero {
+  background: var(--glass-bg-hero);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+.avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6b8fd4, #9fb8e8);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.5rem;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(107, 143, 212, 0.3);
+}
+.hero-name { font-size: 1.7rem; line-height: 1.1; color: var(--text-strong); }
+.hero-role {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; color: var(--accent);
+  margin: 4px 0 10px;
+}
+.hero-bio { font-size: 0.82rem; line-height: 1.6; color: var(--text-body); }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.tag {
+  border-radius: 14px; padding: 4px 10px;
+  font-size: 0.68rem; font-weight: 700;
+  background: rgba(255, 255, 255, 0.4);
+  color: #5a72b0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}

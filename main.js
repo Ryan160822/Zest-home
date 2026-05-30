@@ -32,10 +32,27 @@ function el(html) {
   return t.content.firstElementChild;
 }
 
+function renderHero() {
+  const p = SITE.profile;
+  const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  return el(`
+    <section class="card hero row-2 span-2" id="about">
+      <div>
+        <div class="avatar serif">${p.initial}</div>
+        <h1 class="hero-name serif">${p.name}</h1>
+        <p class="hero-role">${p.role}</p>
+        <p class="hero-bio">${p.bio}</p>
+      </div>
+      <div class="hero-tags">${tags}</div>
+    </section>
+  `);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
   bento.innerHTML = '';
+  bento.append(renderHero());
   // 各卡片渲染函数在后续任务中依次实现并在此调用：
   // bento.append(renderHero());
   // bento.append(renderStatus());
