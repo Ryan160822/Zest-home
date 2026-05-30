@@ -21,8 +21,8 @@
   /* 文字 */
   --text-strong: #2a2a38;
   --text-body: #54545f;
-  --text-muted: #76768a;
-  --accent: #6b8fd4;
+  --text-muted: #737387;
+  --accent: #4773c9;
 
   /* 尺寸 */
   --radius: 18px;
@@ -191,7 +191,7 @@ a { color: inherit; text-decoration: none; }
 .c-stats { background: var(--c-stats); }
 .c-stats .label { color: #6a4fa0; }
 .big-num { font-size: 2rem; line-height: 1; color: #42286e; margin: 4px 0; }
-.stats-sub { font-size: 0.7rem; color: #8570b0; }
+.stats-sub { font-size: 0.7rem; color: #7f69ac; }
 
 /* ===== 工具卡 ===== */
 .tool { cursor: pointer; }
@@ -208,7 +208,7 @@ a { color: inherit; text-decoration: none; }
 .c-tool1 .label { color: #b05a72; }
 .c-tool1 .tool-name { color: #902848; }
 .c-tool2 { background: var(--c-tool2); }
-.c-tool2 .label { color: #b07a2c; }
+.c-tool2 .label { color: #9b6b27; }
 .c-tool2 .tool-name { color: #8a5808; }
 
 /* ===== 作品精选卡 ===== */
@@ -244,7 +244,7 @@ a { color: inherit; text-decoration: none; }
 .article-item:last-child { border-bottom: none; }
 .article-date {
   font-weight: 800; white-space: nowrap;
-  color: #6a7cc0; min-width: 2.2em;
+  color: #5e71bb; min-width: 2.2em;
 }
 .article-title { font-weight: 600; color: var(--text-strong); line-height: 1.4; }
 
@@ -284,4 +284,12 @@ a { color: inherit; text-decoration: none; }
   .blob { animation: none; }
   .card { transition: none; }
   .card:hover { transform: none; }
+}
+
+/* ===== 键盘可访问性 ===== */
+a:focus-visible,
+.tool:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
