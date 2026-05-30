@@ -1,15 +1,48 @@
-// 内容数据与渲染逻辑将在后续任务填充
+// ===== 内容数据（日后替换真实内容只改这里） =====
+const SITE = {
+  profile: {
+    initial: 'J',
+    name: 'James',
+    role: 'Vibe Coder · Builder',
+    bio: '喜欢用 AI 构建有趣的东西，分享工具、作品和思考。',
+    tags: ['🔧 工具', '✨ 作品', '📝 文章'],
+  },
+  status: { text: '在做项目', detail: 'AI 写作工具' },
+  github: { repos: 42, stars: 128 },
+  tools: [
+    { icon: '🔍', name: 'Prompt 优化器', cls: 'c-tool1' },
+    { icon: '🎨', name: '配色生成器', cls: 'c-tool2' },
+  ],
+  featured: {
+    badge: '✦ VIBE 作品',
+    title: 'AI 周报助手',
+    desc: '用 Claude 自动生成每周工作回顾',
+  },
+  articles: [
+    { date: '5月', title: '用 Vibe Coding 在一天内做出可用的产品' },
+    { date: '4月', title: '我用 AI 重建了自己的效率系统' },
+    { date: '3月', title: '关于 Prompt 工程的一些真实经验' },
+  ],
+};
+
+// ===== 工具函数 =====
+function el(html) {
+  const t = document.createElement('template');
+  t.innerHTML = html.trim();
+  return t.content.firstElementChild;
+}
+
+// ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
-  bento.innerHTML = `
-    <section class="card row-2 span-2">Hero 占位</section>
-    <section class="card">状态</section>
-    <section class="card">数据</section>
-    <section class="card">工具1</section>
-    <section class="card">工具2</section>
-    <section class="card span-2">作品</section>
-    <section class="card span-2">文章</section>
-  `;
+  bento.innerHTML = '';
+  // 各卡片渲染函数在后续任务中依次实现并在此调用：
+  // bento.append(renderHero());
+  // bento.append(renderStatus());
+  // bento.append(renderStats());
+  // renderTools().forEach(c => bento.append(c));
+  // bento.append(renderFeatured());
+  // bento.append(renderArticles());
 }
 
 document.addEventListener('DOMContentLoaded', init);
