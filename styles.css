@@ -192,3 +192,21 @@ a { color: inherit; text-decoration: none; }
 .c-stats .label { color: #6a4fa0; }
 .big-num { font-size: 2rem; line-height: 1; color: #42286e; margin: 4px 0; }
 .stats-sub { font-size: 0.7rem; color: #8570b0; }
+
+/* ===== 工具卡 ===== */
+.tool { cursor: pointer; }
+.tool-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.tool-name { font-size: 0.82rem; font-weight: 700; }
+.c-tool1 { background: var(--c-tool1); }
+.c-tool1 .label { color: #b05a72; }
+.c-tool1 .tool-name { color: #902848; }
+.c-tool2 { background: var(--c-tool2); }
+.c-tool2 .label { color: #b07a2c; }
+.c-tool2 .tool-name { color: #8a5808; }
