@@ -23,25 +23,21 @@ const SITE = {
     { date: '4月', title: '我用 AI 重建了自己的效率系统' },
     { date: '3月', title: '关于 Prompt 工程的一些真实经验' },
   ],
-  // 每次进入主页随机显示一句
+  // 每次进入主页随机显示一句（英文 + 中文翻译）
   englishQuotes: [
-    "Build something you'd want to use yourself.",
-    'Ship small, ship often.',
-    'Make it work, make it right, make it fast.',
-    'The best way to predict the future is to invent it.',
-    'Simplicity is the ultimate sophistication.',
-    'Done is better than perfect.',
-    'Great things are built one commit at a time.',
-    'Stay hungry, stay foolish.',
-    'Curiosity is the engine of achievement.',
-    'Talk is cheap. Show me the code.',
+    { en: "Build something you'd want to use yourself.", zh: '做一个你自己也想用的东西。' },
+    { en: 'Ship small, ship often.', zh: '小步快跑，频繁交付。' },
+    { en: 'Make it work, make it right, make it fast.', zh: '先让它能跑，再让它正确，最后让它快。' },
+    { en: 'The best way to predict the future is to invent it.', zh: '预测未来最好的方式，就是亲手创造它。' },
+    { en: 'Simplicity is the ultimate sophistication.', zh: '至简，即是至臻。' },
+    { en: 'Done is better than perfect.', zh: '完成，胜过完美。' },
+    { en: 'Great things are built one commit at a time.', zh: '伟大，是一次次提交累积而成。' },
+    { en: 'Stay hungry, stay foolish.', zh: '求知若饥，虚心若愚。' },
+    { en: 'Curiosity is the engine of achievement.', zh: '好奇心是成就的引擎。' },
+    { en: 'Talk is cheap. Show me the code.', zh: '别空谈，把代码给我看。' },
   ],
-  // AIHOT 每日 AI 日报入口
-  aihot: {
-    label: '🔥 AI HOT',
-    title: '每日 AI 日报',
-    href: 'https://aihot.virxact.com/daily',
-  },
+  // AIHOT 每日 AI 日报
+  aihot: { href: 'https://aihot.virxact.com/daily' },
   // 页脚社交链接（把 href 换成你自己的真实地址）
   footerTagline: '想聊聊？在这里找我',
   social: [
@@ -190,22 +186,69 @@ function renderEnglish() {
   const list = SITE.englishQuotes;
   const q = list[Math.floor(Math.random() * list.length)];
   return el(`
-    <section class="card c-english span-2" id="english">
-      <p class="label">每次刷新一句</p>
-      <p class="english-quote serif">${q}</p>
+    <section class="card c-english span-3" id="english">
+      <p class="english-quote serif">${q.en}</p>
+      <p class="english-zh">${q.zh}</p>
     </section>
   `);
 }
 
 function renderAihot() {
-  const a = SITE.aihot;
-  return el(`
-    <a class="card c-aihot aihot-card" id="aihot" href="${a.href}" target="_blank" rel="noopener noreferrer">
-      <p class="label">${a.label}</p>
-      <p class="aihot-title">${a.title}</p>
-      <span class="aihot-go">查看日报 →</span>
-    </a>
+  const card = el(`
+    <section class="card c-aihot aihot-daily span-4" id="aihot">
+      <div class="aihot-head">
+        <p class="label">🔥 今日 AI 日报</p>
+        <a class="aihot-all" href="${SITE.aihot.href}" target="_blank" rel="noopener noreferrer">查看全部 →</a>
+      </div>
+      <div class="aihot-list" id="aihot-list"><p class="aihot-loading">加载中…</p></div>
+    </section>
   `);
+  loadAihot(card);
+  return card;
+}
+
+async function loadAihot(card) {
+  const list = card.querySelector('#aihot-list');
+  const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : SITE.aihot.href);
+  try {
+    const res = await fetch('/api/daily', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error('status ' + res.status);
+    const data = await res.json();
+    const items = [];
+    (data.sections || []).forEach((sec) =>
+      (sec.items || []).forEach((it) => items.push({ title: it.title, url: it.sourceUrl, source: it.sourceName, section: sec.label }))
+    );
+    if (items.length === 0) throw new Error('empty');
+    if (data.date) card.querySelector('.label').textContent = `🔥 今日 AI 日报 · ${data.date}`;
+    list.innerHTML = '';
+    items.slice(0, 6).forEach((it) => {
+      const a = document.createElement('a');
+      a.className = 'aihot-item';
+      a.href = safeUrl(it.url);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      const sec = document.createElement('span');
+      sec.className = 'aihot-sec';
+      sec.textContent = it.section || '';
+      const t = document.createElement('span');
+      t.className = 'aihot-item-title';
+      t.textContent = it.title || '';
+      const src = document.createElement('span');
+      src.className = 'aihot-src';
+      src.textContent = it.source || '';
+      a.append(sec, t, src);
+      list.appendChild(a);
+    });
+  } catch (e) {
+    list.innerHTML = '';
+    const a = document.createElement('a');
+    a.className = 'aihot-fallback';
+    a.href = SITE.aihot.href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = '暂时无法加载，点此前往 AI 日报 →';
+    list.appendChild(a);
+  }
 }
 
 // ===== 渲染入口 =====
