@@ -26,9 +26,9 @@ const SITE = {
   // 页脚社交链接（把 href 换成你自己的真实地址）
   footerTagline: '想聊聊？在这里找我',
   social: [
-    { name: 'GitHub', icon: 'github', href: 'https://github.com/your-handle' },
-    { name: 'Telegram', icon: 'telegram', href: 'https://t.me/your-handle' },
-    { name: '邮箱', icon: 'mail', href: 'mailto:hello@example.com' },
+    { name: 'GitHub', icon: 'github', href: 'https://github.com/Ryan160822' },
+    { name: 'Telegram', icon: 'telegram', href: 'https://t.me/ZestWit' },
+    { name: '邮箱', icon: 'mail', href: 'mailto:qrbaba0214@gmail.com' },
   ],
 };
 
