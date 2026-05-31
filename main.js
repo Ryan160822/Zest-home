@@ -28,7 +28,8 @@ const SITE = {
   social: [
     { name: 'GitHub', icon: 'github', href: 'https://github.com/Ryan160822' },
     { name: 'Telegram', icon: 'telegram', href: 'https://t.me/ZestWit' },
-    { name: '邮箱', icon: 'mail', href: 'mailto:qrbaba0214@gmail.com' },
+    // 想加回邮箱：取消下一行注释并填上地址（mail 图标已保留）
+    // { name: '邮箱', icon: 'mail', href: 'mailto:你的邮箱' },
   ],
 };
 
