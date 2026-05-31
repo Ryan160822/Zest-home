@@ -23,6 +23,25 @@ const SITE = {
     { date: '4月', title: '我用 AI 重建了自己的效率系统' },
     { date: '3月', title: '关于 Prompt 工程的一些真实经验' },
   ],
+  // 每次进入主页随机显示一句
+  englishQuotes: [
+    "Build something you'd want to use yourself.",
+    'Ship small, ship often.',
+    'Make it work, make it right, make it fast.',
+    'The best way to predict the future is to invent it.',
+    'Simplicity is the ultimate sophistication.',
+    'Done is better than perfect.',
+    'Great things are built one commit at a time.',
+    'Stay hungry, stay foolish.',
+    'Curiosity is the engine of achievement.',
+    'Talk is cheap. Show me the code.',
+  ],
+  // AIHOT 每日 AI 日报入口
+  aihot: {
+    label: '🔥 AI HOT',
+    title: '每日 AI 日报',
+    href: 'https://aihot.virxact.com/daily',
+  },
   // 页脚社交链接（把 href 换成你自己的真实地址）
   footerTagline: '想聊聊？在这里找我',
   social: [
@@ -140,6 +159,55 @@ function renderFooter() {
   `;
 }
 
+function renderClock() {
+  return el(`
+    <section class="card c-clock" id="clock">
+      <p class="label">北京时间</p>
+      <p class="clock-time serif" id="clock-time">--:--:--</p>
+      <p class="clock-meta" id="clock-meta">加载中…</p>
+    </section>
+  `);
+}
+
+function startClock() {
+  const timeEl = document.getElementById('clock-time');
+  const metaEl = document.getElementById('clock-meta');
+  if (!timeEl || !metaEl) return;
+  const tz = 'Asia/Shanghai';
+  const timeFmt = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  const weekdayFmt = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, weekday: 'long' });
+  const dateFmt = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, month: 'long', day: 'numeric' });
+  function tick() {
+    const now = new Date();
+    timeEl.textContent = timeFmt.format(now);
+    metaEl.textContent = `${weekdayFmt.format(now)} · ${dateFmt.format(now)}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+function renderEnglish() {
+  const list = SITE.englishQuotes;
+  const q = list[Math.floor(Math.random() * list.length)];
+  return el(`
+    <section class="card c-english span-2" id="english">
+      <p class="label">每次刷新一句</p>
+      <p class="english-quote serif">${q}</p>
+    </section>
+  `);
+}
+
+function renderAihot() {
+  const a = SITE.aihot;
+  return el(`
+    <a class="card c-aihot aihot-card" id="aihot" href="${a.href}" target="_blank" rel="noopener noreferrer">
+      <p class="label">${a.label}</p>
+      <p class="aihot-title">${a.title}</p>
+      <span class="aihot-go">查看日报 →</span>
+    </a>
+  `);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -150,6 +218,10 @@ function init() {
   renderTools().forEach(c => bento.append(c));
   bento.append(renderFeatured());
   bento.append(renderArticles());
+  bento.append(renderClock());
+  bento.append(renderEnglish());
+  bento.append(renderAihot());
+  startClock();
   renderFooter();
 }
 

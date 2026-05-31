@@ -17,6 +17,9 @@
   --c-tool2: rgba(252, 232, 200, 0.26);
   --c-featured: rgba(200, 216, 245, 0.26);
   --c-articles: rgba(210, 224, 248, 0.22);
+  --c-clock: rgba(198, 232, 235, 0.24);
+  --c-english: rgba(248, 238, 214, 0.30);
+  --c-aihot: rgba(250, 214, 205, 0.30);
 
   /* 文字 */
   --text-strong: #2a2a38;
@@ -258,6 +261,9 @@ a { color: inherit; text-decoration: none; }
   .c-tool2 { background: rgba(254, 240, 219, 0.9); }
   .c-featured { background: rgba(227, 236, 251, 0.9); }
   .c-articles { background: rgba(240, 244, 251, 0.9); }
+  .c-clock { background: rgba(222, 240, 241, 0.9); }
+  .c-english { background: rgba(250, 242, 224, 0.9); }
+  .c-aihot { background: rgba(251, 228, 222, 0.9); }
   .social-link { background: rgba(255, 255, 255, 0.85); }
 }
 
@@ -343,3 +349,35 @@ a:focus-visible {
   font-size: 0.72rem;
   color: var(--text-muted);
 }
+
+/* ===== 北京时间卡 ===== */
+.c-clock { background: var(--c-clock); }
+.c-clock .label { color: #1a6363; }
+.clock-time {
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--text-strong);
+  margin: 4px 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+.clock-meta { font-size: 0.78rem; font-weight: 600; color: #1a6363; }
+
+/* ===== 随机英语卡 ===== */
+.c-english {
+  background: var(--c-english);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.c-english .label { color: #9b6b27; }
+.english-quote { font-size: 1.1rem; line-height: 1.45; color: var(--text-strong); }
+
+/* ===== AIHOT 日报入口卡 ===== */
+.c-aihot {
+  background: var(--c-aihot);
+  display: flex;
+  flex-direction: column;
+}
+.c-aihot .label { color: #b23a26; }
+.aihot-title { font-size: 0.95rem; font-weight: 700; color: var(--text-strong); margin: 4px 0 auto; }
+.aihot-go { font-size: 0.8rem; font-weight: 800; color: #b23a26; margin-top: 10px; }
