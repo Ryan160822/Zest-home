@@ -1,8 +1,8 @@
 // ===== 内容数据（日后替换真实内容只改这里） =====
 const SITE = {
   profile: {
-    initial: 'J',
-    name: 'James',
+    initial: 'Z',
+    name: 'Zest',
     role: 'Vibe Coder · Builder',
     bio: '喜欢用 AI 构建有趣的东西，分享工具、作品和思考。',
     tags: ['🔧 工具', '✨ 作品', '📝 文章'],
