@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt 模板库 · Zest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+
+  <main class="tool-page">
+    <div class="tool-bar">
+      <a class="back-link" href="../index.html">← 返回主页</a>
+      <h1 class="tool-title">Prompt 模板库</h1>
+    </div>
+
+    <div class="list-toolbar">
+      <input type="text" id="search" placeholder="搜索标题、内容或标签…" aria-label="搜索模板">
+      <button class="btn btn-primary" id="add-btn">+ 新建</button>
+    </div>
+
+    <div class="prompt-grid" id="prompt-grid"></div>
+    <p class="empty-state" id="empty-state" hidden></p>
+  </main>
+
+  <!-- 新建 / 编辑 -->
+  <dialog id="editor-dialog">
+    <form method="dialog" class="dialog-body">
+      <h2 class="dialog-title" id="editor-title">新建模板</h2>
+      <div class="field">
+        <label for="ed-title">标题</label>
+        <input type="text" id="ed-title" required placeholder="例如：代码解释">
+      </div>
+      <div class="field">
+        <label for="ed-tags">标签（逗号分隔，可选）</label>
+        <input type="text" id="ed-tags" placeholder="例如：开发, 写作">
+      </div>
+      <div class="field">
+        <label for="ed-content">内容（用 {{变量}} 表示需要填空的地方）</label>
+        <textarea id="ed-content" required placeholder="用通俗语言解释这段代码：{{代码}}"></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="ed-cancel">取消</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 变量填充 -->
+  <dialog id="fill-dialog">
+    <div class="dialog-body">
+      <h2 class="dialog-title" id="fill-title">填写变量</h2>
+      <div id="fill-fields"></div>
+      <label style="display:block; font-size:0.72rem; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-muted); margin-top:8px">预览</label>
+      <div class="fill-output" id="fill-output"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="fill-close">关闭</button>
+        <button type="button" class="btn btn-primary" id="fill-copy">复制结果</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="prompts.js"></script>
+</body>
+</html>

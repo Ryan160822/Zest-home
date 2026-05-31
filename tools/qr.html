@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二维码生成器 · Zest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+
+  <main class="tool-page">
+    <div class="tool-bar">
+      <a class="back-link" href="../index.html">← 返回主页</a>
+      <h1 class="tool-title">二维码生成器</h1>
+    </div>
+
+    <div class="panel">
+      <div class="field">
+        <label for="qr-input">文字 / 链接</label>
+        <textarea id="qr-input" placeholder="输入要生成二维码的文字或网址…"></textarea>
+      </div>
+      <div class="row">
+        <div class="field" style="margin-bottom:0; flex:1; min-width:140px">
+          <label for="qr-size">尺寸</label>
+          <select id="qr-size">
+            <option value="200">小 (200px)</option>
+            <option value="320" selected>中 (320px)</option>
+            <option value="480">大 (480px)</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0; flex:1; min-width:140px">
+          <label for="qr-ecl">容错级别</label>
+          <select id="qr-ecl">
+            <option value="L">L · 7%</option>
+            <option value="M" selected>M · 15%</option>
+            <option value="Q">Q · 25%</option>
+            <option value="H">H · 30%</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="qr-output" id="qr-output">
+        <canvas id="qr-canvas" style="display:none"></canvas>
+        <p class="qr-empty">输入内容后这里会显示二维码</p>
+      </div>
+      <div class="row" style="margin-top:16px; justify-content:center">
+        <button class="btn btn-primary" id="qr-download" disabled>下载 PNG</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script src="qr.js"></script>
+</body>
+</html>

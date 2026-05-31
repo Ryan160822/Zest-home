@@ -10,8 +10,8 @@ const SITE = {
   status: { text: '在做项目', detail: 'AI 写作工具' },
   github: { repos: 42, stars: 128 },
   tools: [
-    { icon: '🔍', name: 'Prompt 优化器', cls: 'c-tool1' },
-    { icon: '🎨', name: '配色生成器', cls: 'c-tool2' },
+    { icon: '🔳', name: '二维码生成器', cls: 'c-tool1', href: 'tools/qr.html' },
+    { icon: '📋', name: 'Prompt 模板库', cls: 'c-tool2', href: 'tools/prompts.html' },
   ],
   featured: {
     badge: '✦ VIBE 作品',
@@ -86,11 +86,11 @@ function renderStats() {
 
 function renderTools() {
   return SITE.tools.map((t, i) => el(`
-    <section class="card ${t.cls} tool"${i === 0 ? ' id="tools"' : ''}>
+    <a class="card ${t.cls} tool" href="${t.href}"${i === 0 ? ' id="tools"' : ''}>
       <div class="tool-icon">${t.icon}</div>
       <p class="label">工具</p>
       <p class="tool-name">${t.name}</p>
-    </section>
+    </a>
   `));
 }
 
