@@ -13,16 +13,6 @@ const SITE = {
     { icon: '🔳', name: '二维码生成器', cls: 'c-tool1', href: 'tools/qr.html' },
     { icon: '📋', name: 'Prompt 模板库', cls: 'c-tool2', href: 'tools/prompts.html' },
   ],
-  featured: {
-    badge: '✦ VIBE 作品',
-    title: 'AI 周报助手',
-    desc: '用 Claude 自动生成每周工作回顾',
-  },
-  articles: [
-    { date: '5月', title: '用 Vibe Coding 在一天内做出可用的产品' },
-    { date: '4月', title: '我用 AI 重建了自己的效率系统' },
-    { date: '3月', title: '关于 Prompt 工程的一些真实经验' },
-  ],
   // 每次进入主页随机显示一句（英文 + 中文翻译）
   englishQuotes: [
     { en: "Build something you'd want to use yourself.", zh: '做一个你自己也想用的东西。' },
@@ -108,32 +98,6 @@ function renderTools() {
       <p class="tool-name">${t.name}</p>
     </a>
   `));
-}
-
-function renderFeatured() {
-  const f = SITE.featured;
-  return el(`
-    <section class="card c-featured featured span-2" id="works">
-      <span class="featured-badge">${f.badge}</span>
-      <h2 class="featured-title serif">${f.title}</h2>
-      <p class="featured-desc">${f.desc}</p>
-    </section>
-  `);
-}
-
-function renderArticles() {
-  const items = SITE.articles.map(a => `
-    <li class="article-item">
-      <span class="article-date">${a.date}</span>
-      <span class="article-title">${a.title}</span>
-    </li>
-  `).join('');
-  return el(`
-    <section class="card c-articles span-2" id="articles">
-      <p class="label">最新文章</p>
-      <ul class="article-list">${items}</ul>
-    </section>
-  `);
 }
 
 function renderFooter() {
@@ -259,8 +223,6 @@ function init() {
   bento.append(renderStatus());
   bento.append(renderStats());
   renderTools().forEach(c => bento.append(c));
-  bento.append(renderFeatured());
-  bento.append(renderArticles());
   bento.append(renderClock());
   bento.append(renderEnglish());
   bento.append(renderAihot());
