@@ -36,6 +36,31 @@ const SITE = {
   ],
 };
 
+// ===== 仪表盘存储 =====
+const STORE_KEY = 'zest.dashboard';
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function saveStore() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {}
+}
+function todayKey() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(new Date());
+}
+let store = loadStore();
+if (!Array.isArray(store.tasks)) store.tasks = [];
+if (typeof store.pomoCount !== 'number') store.pomoCount = 0;
+function applyDailyReset() {
+  const today = todayKey();
+  if (store.lastResetDate !== today) {
+    store.tasks = store.tasks.filter(t => !t.time); // 清掉带时间的，留纯待办
+    store.pomoCount = 0;
+    store.lastResetDate = today;
+    saveStore();
+  }
+}
+
 // ===== 图标（SVG，可在此扩展更多平台） =====
 const ICONS = {
   github: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>',
@@ -64,6 +89,51 @@ function renderHero() {
       <div class="hero-tags">${tags}</div>
     </section>
   `);
+}
+
+function renderDashboard() {
+  return el(`
+    <section class="card c-dash row-2 span-2" id="dashboard">
+      <p class="label">🗂 我的仪表盘</p>
+      <div class="dash-tabs">
+        <button class="dash-tab on" data-tab="today">📋 今日</button>
+        <button class="dash-tab" data-tab="pomo">🍅 番茄钟</button>
+      </div>
+      <div class="dash-panel on" data-panel="today">
+        <div class="task-add">
+          <input class="task-time" type="time" id="task-time" aria-label="时间（选填）">
+          <input class="task-text" id="task-text" placeholder="加一件今天要做的事…" aria-label="事项">
+          <button class="task-add-btn" id="task-add-btn" aria-label="添加">+</button>
+        </div>
+        <div class="task-list" id="task-list"></div>
+      </div>
+      <div class="dash-panel" data-panel="pomo">
+        <div class="pomo">
+          <p class="pomo-time serif" id="pomo-time">25:00</p>
+          <div class="pomo-modes">
+            <button class="pomo-mode on" data-min="25">专注 25</button>
+            <button class="pomo-mode" data-min="5">短休 5</button>
+            <button class="pomo-mode" data-min="15">长休 15</button>
+          </div>
+          <div class="pomo-btns">
+            <button class="pomo-start" id="pomo-start">开始</button>
+            <button class="pomo-reset" id="pomo-reset">重置</button>
+          </div>
+          <p class="pomo-count" id="pomo-count"></p>
+        </div>
+      </div>
+    </section>
+  `);
+}
+
+function initDashboardTabs() {
+  document.querySelectorAll('.dash-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const name = tab.dataset.tab;
+      document.querySelectorAll('.dash-tab').forEach(t => t.classList.toggle('on', t === tab));
+      document.querySelectorAll('.dash-panel').forEach(p => p.classList.toggle('on', p.dataset.panel === name));
+    });
+  });
 }
 
 function renderTools() {
@@ -245,13 +315,16 @@ async function loadAihot(card) {
 function init() {
   const bento = document.getElementById('bento');
   bento.innerHTML = '';
+  applyDailyReset();
   bento.append(renderTopbar());
+  bento.append(renderDashboard());
   bento.append(renderHero());
   renderTools().forEach(c => bento.append(c));
   bento.append(renderEnglish());
   bento.append(renderAihot());
   startClock();
   loadWeather();
+  initDashboardTabs();
   renderFooter();
 }
 

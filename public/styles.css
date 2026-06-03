@@ -18,6 +18,7 @@
   --c-clock: rgba(198, 232, 235, 0.24);
   --c-english: rgba(248, 238, 214, 0.30);
   --c-aihot: rgba(250, 214, 205, 0.30);
+  --c-dash: rgba(216, 224, 248, 0.30);
 
   /* 文字 */
   --text-strong: #2a2a38;
@@ -245,6 +246,7 @@ a { color: inherit; text-decoration: none; }
   .c-topbar { background: rgba(222, 240, 241, 0.9); }
   .c-english { background: rgba(250, 242, 224, 0.9); }
   .c-aihot { background: rgba(251, 228, 222, 0.9); }
+  .c-dash { background: rgba(224, 230, 250, 0.9); }
   .social-link { background: rgba(255, 255, 255, 0.85); }
 }
 
@@ -418,3 +420,20 @@ a:focus-visible {
 @media (max-width: 480px) {
   .aihot-src { display: none; }
 }
+
+/* ===== 仪表盘卡 ===== */
+.c-dash { background: var(--c-dash); display: flex; flex-direction: column; }
+.c-dash .label { color: #3f5bb0; }
+.dash-tabs {
+  display: flex; gap: 4px; background: rgba(255, 255, 255, 0.4);
+  padding: 4px; border-radius: 12px; margin: 4px 0 14px;
+}
+.dash-tab {
+  flex: 1; text-align: center; font-size: 0.76rem; font-weight: 700;
+  padding: 7px 4px; border-radius: 9px; color: var(--text-muted);
+  cursor: pointer; border: none; background: none; font-family: inherit;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.dash-tab.on { background: #fff; color: var(--accent); box-shadow: 0 1px 4px rgba(40, 40, 80, 0.08); }
+.dash-panel { display: none; flex: 1; }
+.dash-panel.on { display: block; }
