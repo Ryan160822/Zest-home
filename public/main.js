@@ -180,11 +180,16 @@ function taskRow(t, isNow) {
   return row;
 }
 
+function newId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  return Date.now() + '-' + Math.floor(Math.random() * 1e9);
+}
+
 function addTask(text, time) {
   text = (text || '').trim();
   if (!text) return;
   store.tasks.push({
-    id: Date.now() + '-' + Math.floor(Math.random() * 1000),
+    id: newId(),
     text, time: time || null, done: false, createdAt: Date.now(),
   });
   saveStore();
