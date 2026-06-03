@@ -7,8 +7,6 @@ const SITE = {
     bio: '喜欢用 AI 构建有趣的东西，分享工具、作品和思考。',
     tags: ['🔧 工具', '✨ 作品', '📝 文章'],
   },
-  status: { text: '在做项目', detail: 'AI 写作工具' },
-  github: { repos: 42, stars: 128 },
   tools: [
     { icon: '🔳', name: '二维码生成器', cls: 'c-tool1', href: 'tools/qr.html' },
     { icon: '📋', name: 'Prompt 模板库', cls: 'c-tool2', href: 'tools/prompts.html' },
@@ -64,28 +62,6 @@ function renderHero() {
         <p class="hero-bio">${p.bio}</p>
       </div>
       <div class="hero-tags">${tags}</div>
-    </section>
-  `);
-}
-
-function renderStatus() {
-  const s = SITE.status;
-  return el(`
-    <section class="card c-status">
-      <p class="label">状态</p>
-      <p class="status-text"><span class="dot"></span>${s.text}</p>
-      <p class="status-detail">${s.detail}</p>
-    </section>
-  `);
-}
-
-function renderStats() {
-  const g = SITE.github;
-  return el(`
-    <section class="card c-stats">
-      <p class="label">GitHub</p>
-      <p class="big-num serif">${g.repos}</p>
-      <p class="stats-sub">repos · ⭐${g.stars}</p>
     </section>
   `);
 }
@@ -220,8 +196,6 @@ function init() {
   const bento = document.getElementById('bento');
   bento.innerHTML = '';
   bento.append(renderHero());
-  bento.append(renderStatus());
-  bento.append(renderStats());
   renderTools().forEach(c => bento.append(c));
   bento.append(renderClock());
   bento.append(renderEnglish());

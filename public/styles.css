@@ -11,8 +11,6 @@
   --glass-shadow: 0 4px 22px rgba(40, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   /* 分类色（有色玻璃） */
-  --c-status: rgba(200, 232, 212, 0.22);
-  --c-stats: rgba(224, 210, 242, 0.22);
   --c-tool1: rgba(252, 212, 222, 0.22);
   --c-tool2: rgba(252, 232, 200, 0.26);
   --c-featured: rgba(200, 216, 245, 0.26);
@@ -181,23 +179,6 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 6px;
 }
 
-/* ===== 状态卡 ===== */
-.c-status { background: var(--c-status); }
-.c-status .label { color: #2f7a4e; }
-.status-text { font-size: 0.82rem; font-weight: 700; color: #1f5e3a; }
-.dot {
-  display: inline-block; width: 8px; height: 8px;
-  border-radius: 50%; background: #4caf7d; margin-right: 6px;
-  box-shadow: 0 0 0 3px rgba(76, 175, 125, 0.2);
-}
-.status-detail { font-size: 0.7rem; color: #2f7a4e; margin-top: 6px; }
-
-/* ===== 数据卡 ===== */
-.c-stats { background: var(--c-stats); }
-.c-stats .label { color: #6a4fa0; }
-.big-num { font-size: 2rem; line-height: 1; color: #42286e; margin: 4px 0; }
-.stats-sub { font-size: 0.7rem; color: #7f69ac; }
-
 /* ===== 工具卡 ===== */
 .tool { cursor: pointer; }
 .tool-icon {
@@ -257,8 +238,6 @@ a { color: inherit; text-decoration: none; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .card { background: rgba(255, 255, 255, 0.85); }
   .hero { background: rgba(255, 255, 255, 0.88); }
-  .c-status { background: rgba(216, 237, 224, 0.9); }
-  .c-stats { background: rgba(232, 226, 242, 0.9); }
   .c-tool1 { background: rgba(252, 228, 232, 0.9); }
   .c-tool2 { background: rgba(254, 240, 219, 0.9); }
   .c-featured { background: rgba(227, 236, 251, 0.9); }
