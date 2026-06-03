@@ -242,7 +242,7 @@ a { color: inherit; text-decoration: none; }
   .c-tool2 { background: rgba(254, 240, 219, 0.9); }
   .c-featured { background: rgba(227, 236, 251, 0.9); }
   .c-articles { background: rgba(240, 244, 251, 0.9); }
-  .c-clock { background: rgba(222, 240, 241, 0.9); }
+  .c-topbar { background: rgba(222, 240, 241, 0.9); }
   .c-english { background: rgba(250, 242, 224, 0.9); }
   .c-aihot { background: rgba(251, 228, 222, 0.9); }
   .social-link { background: rgba(255, 255, 255, 0.85); }
@@ -331,17 +331,31 @@ a:focus-visible {
   color: var(--text-muted);
 }
 
-/* ===== 北京时间卡 ===== */
-.c-clock { background: var(--c-clock); }
-.c-clock .label { color: #1a6363; }
+/* ===== 顶栏：时间 + 天气 ===== */
+.c-topbar {
+  background: var(--c-clock);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: auto;
+}
+.c-topbar .label { color: #1a6363; }
+.topbar-weather { text-align: right; }
 .clock-time {
-  font-size: 1.9rem;
-  line-height: 1.1;
-  color: var(--text-strong);
-  margin: 4px 0 6px;
-  font-variant-numeric: tabular-nums;
+  font-size: 1.9rem; line-height: 1.1; color: var(--text-strong);
+  margin: 4px 0 6px; font-variant-numeric: tabular-nums;
 }
 .clock-meta { font-size: 0.78rem; font-weight: 600; color: #1a6363; }
+.weather-now { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin: 4px 0 6px; }
+.weather-icon { font-size: 1.5rem; }
+.weather-temp { font-size: 1.9rem; line-height: 1.1; color: var(--text-strong); }
+.weather-meta { font-size: 0.78rem; font-weight: 600; color: #1a6363; }
+@media (max-width: 480px) {
+  .c-topbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .topbar-weather { text-align: left; }
+  .weather-now { justify-content: flex-start; }
+}
 
 /* ===== 随机英语卡 ===== */
 .c-english {

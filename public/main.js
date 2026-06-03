@@ -95,12 +95,22 @@ function renderFooter() {
   `;
 }
 
-function renderClock() {
+function renderTopbar() {
   return el(`
-    <section class="card c-clock" id="clock">
-      <p class="label">北京时间</p>
-      <p class="clock-time serif" id="clock-time">--:--:--</p>
-      <p class="clock-meta" id="clock-meta">加载中…</p>
+    <section class="card c-topbar span-4" id="clock">
+      <div class="topbar-time">
+        <p class="label">北京时间</p>
+        <p class="clock-time serif" id="clock-time">--:--:--</p>
+        <p class="clock-meta" id="clock-meta">加载中…</p>
+      </div>
+      <div class="topbar-weather">
+        <p class="label">温州 · 鹿城</p>
+        <p class="weather-now">
+          <span class="weather-icon" id="weather-icon">⏳</span>
+          <span class="weather-temp serif" id="weather-temp">--°</span>
+        </p>
+        <p class="weather-meta" id="weather-meta">加载中…</p>
+      </div>
     </section>
   `);
 }
@@ -120,6 +130,46 @@ function startClock() {
   }
   tick();
   setInterval(tick, 1000);
+}
+
+// WMO weather_code → 中文 + emoji
+const WEATHER = {
+  0:{l:'晴',i:'☀️'},1:{l:'晴间多云',i:'🌤️'},2:{l:'多云',i:'⛅'},3:{l:'阴',i:'☁️'},
+  45:{l:'雾',i:'🌫️'},48:{l:'雾凇',i:'🌫️'},
+  51:{l:'毛毛雨',i:'🌦️'},53:{l:'小雨',i:'🌦️'},55:{l:'中雨',i:'🌧️'},
+  56:{l:'冻雨',i:'🌧️'},57:{l:'冻雨',i:'🌧️'},
+  61:{l:'小雨',i:'🌦️'},63:{l:'中雨',i:'🌧️'},65:{l:'大雨',i:'🌧️'},
+  66:{l:'冻雨',i:'🌧️'},67:{l:'冻雨',i:'🌧️'},
+  71:{l:'小雪',i:'🌨️'},73:{l:'中雪',i:'❄️'},75:{l:'大雪',i:'❄️'},77:{l:'雪粒',i:'🌨️'},
+  80:{l:'阵雨',i:'🌦️'},81:{l:'阵雨',i:'🌧️'},82:{l:'强阵雨',i:'⛈️'},
+  85:{l:'阵雪',i:'🌨️'},86:{l:'强阵雪',i:'❄️'},
+  95:{l:'雷阵雨',i:'⛈️'},96:{l:'雷阵雨伴冰雹',i:'⛈️'},99:{l:'强雷阵雨',i:'⛈️'},
+};
+
+async function loadWeather() {
+  const iconEl = document.getElementById('weather-icon');
+  const tempEl = document.getElementById('weather-temp');
+  const metaEl = document.getElementById('weather-meta');
+  if (!iconEl) return;
+  try {
+    const res = await fetch('/api/weather', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error('status ' + res.status);
+    const data = await res.json();
+    const cur = data.current || {};
+    const daily = data.daily || {};
+    const w = WEATHER[cur.weather_code] || { l: '—', i: '🌡️' };
+    iconEl.textContent = w.i;
+    tempEl.textContent = (cur.temperature_2m != null ? Math.round(cur.temperature_2m) : '--') + '°';
+    const hi = daily.temperature_2m_max ? Math.round(daily.temperature_2m_max[0]) : null;
+    const lo = daily.temperature_2m_min ? Math.round(daily.temperature_2m_min[0]) : null;
+    const feels = cur.apparent_temperature != null ? `体感 ${Math.round(cur.apparent_temperature)}°` : '';
+    const range = (hi != null && lo != null) ? `${lo}° / ${hi}°` : '';
+    metaEl.textContent = [w.l, range, feels].filter(Boolean).join(' · ');
+  } catch (e) {
+    iconEl.textContent = '🌡️';
+    tempEl.textContent = '--°';
+    metaEl.textContent = '天气加载失败';
+  }
 }
 
 function renderEnglish() {
@@ -195,12 +245,13 @@ async function loadAihot(card) {
 function init() {
   const bento = document.getElementById('bento');
   bento.innerHTML = '';
+  bento.append(renderTopbar());
   bento.append(renderHero());
   renderTools().forEach(c => bento.append(c));
-  bento.append(renderClock());
   bento.append(renderEnglish());
   bento.append(renderAihot());
   startClock();
+  loadWeather();
   renderFooter();
 }
 
