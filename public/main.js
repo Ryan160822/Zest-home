@@ -136,6 +136,85 @@ function initDashboardTabs() {
   });
 }
 
+function renderTaskList() {
+  const list = document.getElementById('task-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (store.tasks.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'task-empty';
+    empty.textContent = '今天还没有安排，加一件事吧 ✦';
+    list.appendChild(empty);
+    return;
+  }
+  const timed = store.tasks.filter(t => t.time).sort((a, b) => a.time.localeCompare(b.time));
+  const untimed = store.tasks.filter(t => !t.time);
+  const nowHM = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).format(new Date());
+  let nowIdx = -1;
+  timed.forEach((t, i) => { if (t.time <= nowHM && !t.done) nowIdx = i; });
+  timed.forEach((t, i) => list.appendChild(taskRow(t, i === nowIdx)));
+  if (untimed.length) {
+    const hd = document.createElement('p');
+    hd.className = 'task-group';
+    hd.textContent = '随时做';
+    list.appendChild(hd);
+    untimed.forEach(t => list.appendChild(taskRow(t, false)));
+  }
+}
+
+function taskRow(t, isNow) {
+  const row = el(`
+    <div class="task-item${t.done ? ' done' : ''}${isNow ? ' now' : ''}" data-id="${t.id}">
+      ${t.time ? `<time>${t.time}</time>` : '<span class="task-anytime">—</span>'}
+      <span class="task-box"></span>
+      <span class="task-label"></span>
+      <button class="task-del" aria-label="删除">×</button>
+    </div>
+  `);
+  row.querySelector('.task-label').textContent = t.text;
+  row.querySelector('.task-box').addEventListener('click', () => toggleTask(t.id));
+  row.querySelector('.task-label').addEventListener('click', () => toggleTask(t.id));
+  row.querySelector('.task-del').addEventListener('click', () => deleteTask(t.id));
+  return row;
+}
+
+function addTask(text, time) {
+  text = (text || '').trim();
+  if (!text) return;
+  store.tasks.push({
+    id: Date.now() + '-' + Math.floor(Math.random() * 1000),
+    text, time: time || null, done: false, createdAt: Date.now(),
+  });
+  saveStore();
+  renderTaskList();
+}
+
+function toggleTask(id) {
+  const t = store.tasks.find(x => x.id === id);
+  if (!t) return;
+  t.done = !t.done;
+  saveStore();
+  renderTaskList();
+}
+
+function deleteTask(id) {
+  store.tasks = store.tasks.filter(x => x.id !== id);
+  saveStore();
+  renderTaskList();
+}
+
+function initTaskInput() {
+  const btn = document.getElementById('task-add-btn');
+  const text = document.getElementById('task-text');
+  const time = document.getElementById('task-time');
+  if (!btn) return;
+  const submit = () => { addTask(text.value, time.value); text.value = ''; time.value = ''; text.focus(); };
+  btn.addEventListener('click', submit);
+  text.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+}
+
 function renderTools() {
   return SITE.tools.map((t, i) => el(`
     <a class="card ${t.cls} tool" href="${t.href}"${i === 0 ? ' id="tools"' : ''}>
@@ -325,6 +404,8 @@ function init() {
   startClock();
   loadWeather();
   initDashboardTabs();
+  initTaskInput();
+  renderTaskList();
   renderFooter();
 }
 
