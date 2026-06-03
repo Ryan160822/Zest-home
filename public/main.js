@@ -160,8 +160,8 @@ async function loadWeather() {
     const w = WEATHER[cur.weather_code] || { l: '—', i: '🌡️' };
     iconEl.textContent = w.i;
     tempEl.textContent = (cur.temperature_2m != null ? Math.round(cur.temperature_2m) : '--') + '°';
-    const hi = daily.temperature_2m_max ? Math.round(daily.temperature_2m_max[0]) : null;
-    const lo = daily.temperature_2m_min ? Math.round(daily.temperature_2m_min[0]) : null;
+    const hi = daily.temperature_2m_max?.length ? Math.round(daily.temperature_2m_max[0]) : null;
+    const lo = daily.temperature_2m_min?.length ? Math.round(daily.temperature_2m_min[0]) : null;
     const feels = cur.apparent_temperature != null ? `体感 ${Math.round(cur.apparent_temperature)}°` : '';
     const range = (hi != null && lo != null) ? `${lo}° / ${hi}°` : '';
     metaEl.textContent = [w.l, range, feels].filter(Boolean).join(' · ');
