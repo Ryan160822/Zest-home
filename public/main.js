@@ -220,6 +220,93 @@ function initTaskInput() {
   text.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
 }
 
+// ===== 番茄钟 =====
+const POMO = { running: false, mode: 25, remaining: 25 * 60, endAt: 0, timer: null };
+
+function fmtPomo(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+function renderPomo() {
+  const t = document.getElementById('pomo-time');
+  const c = document.getElementById('pomo-count');
+  if (t) t.textContent = fmtPomo(POMO.remaining);
+  if (c) c.textContent = store.pomoCount > 0
+    ? `今天完成 ${'🍅'.repeat(Math.min(store.pomoCount, 8))} · ${store.pomoCount} 个番茄`
+    : '专注开始你的第一个番茄 🍅';
+}
+function tickPomo() {
+  POMO.remaining = Math.max(0, Math.round((POMO.endAt - Date.now()) / 1000));
+  renderPomo();
+  if (POMO.remaining <= 0) finishPomo();
+}
+function startPomo() {
+  if (POMO.running) { pausePomo(); return; }
+  POMO.running = true;
+  POMO.endAt = Date.now() + POMO.remaining * 1000;
+  POMO.timer = setInterval(tickPomo, 250);
+  const btn = document.getElementById('pomo-start');
+  if (btn) btn.textContent = '暂停';
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+function pausePomo() {
+  POMO.running = false;
+  clearInterval(POMO.timer);
+  const btn = document.getElementById('pomo-start');
+  if (btn) btn.textContent = '开始';
+}
+function resetPomo() {
+  pausePomo();
+  POMO.remaining = POMO.mode * 60;
+  renderPomo();
+}
+function setPomoMode(min) {
+  POMO.mode = min;
+  pausePomo();
+  POMO.remaining = min * 60;
+  document.querySelectorAll('.pomo-mode').forEach(b => b.classList.toggle('on', Number(b.dataset.min) === min));
+  renderPomo();
+}
+function finishPomo() {
+  pausePomo();
+  if (POMO.mode === 25) { store.pomoCount += 1; saveStore(); }
+  POMO.remaining = POMO.mode * 60;
+  renderPomo();
+  notifyPomo();
+}
+function notifyPomo() {
+  const msg = POMO.mode === 25 ? '专注完成，休息一下 🍵' : '休息结束，继续加油 💪';
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('🍅 番茄钟', { body: msg });
+  } else {
+    flashTitle('⏰ 时间到！');
+  }
+}
+let titleFlashTimer = null;
+function flashTitle(text) {
+  const realTitle = document.title;
+  let on = false, n = 0;
+  clearInterval(titleFlashTimer);
+  titleFlashTimer = setInterval(() => {
+    document.title = on ? realTitle : text;
+    on = !on;
+    if (++n > 10) { clearInterval(titleFlashTimer); document.title = realTitle; }
+  }, 600);
+}
+function initPomo() {
+  const start = document.getElementById('pomo-start');
+  const reset = document.getElementById('pomo-reset');
+  if (!start) return;
+  start.addEventListener('click', startPomo);
+  reset.addEventListener('click', resetPomo);
+  document.querySelectorAll('.pomo-mode').forEach(b =>
+    b.addEventListener('click', () => setPomoMode(Number(b.dataset.min)))
+  );
+  renderPomo();
+}
+
 function renderTools() {
   return SITE.tools.map((t, i) => el(`
     <a class="card ${t.cls} tool" href="${t.href}"${i === 0 ? ' id="tools"' : ''}>
@@ -411,6 +498,7 @@ function init() {
   initDashboardTabs();
   initTaskInput();
   renderTaskList();
+  initPomo();
   renderFooter();
 }
 

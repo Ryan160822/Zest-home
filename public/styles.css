@@ -484,3 +484,25 @@ a:focus-visible {
 }
 .task-item:hover .task-del { opacity: 0.6; }
 .task-del:hover { opacity: 1 !important; color: #b05a72; }
+
+/* ===== 番茄钟 ===== */
+.pomo { text-align: center; padding: 10px 0 2px; }
+.pomo-time {
+  font-size: 3rem; line-height: 1; color: var(--text-strong);
+  font-variant-numeric: tabular-nums; margin-bottom: 14px;
+}
+.pomo-modes { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; }
+.pomo-mode {
+  font-size: 0.66rem; font-weight: 800; padding: 4px 11px; border-radius: 10px;
+  color: var(--text-muted); background: rgba(255, 255, 255, 0.5); border: none;
+  cursor: pointer; font-family: inherit; transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.pomo-mode.on { background: var(--accent); color: #fff; }
+.pomo-btns { display: flex; gap: 8px; justify-content: center; }
+.pomo-btns button {
+  border: none; border-radius: 10px; padding: 9px 20px; font-weight: 800;
+  font-size: 0.82rem; cursor: pointer; font-family: inherit;
+}
+.pomo-start { background: var(--accent); color: #fff; }
+.pomo-reset { background: rgba(255, 255, 255, 0.6); color: var(--text-body); }
+.pomo-count { font-size: 0.68rem; color: var(--text-muted); margin-top: 14px; }
