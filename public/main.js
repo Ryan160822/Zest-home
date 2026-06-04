@@ -417,11 +417,61 @@ function renderEnglish() {
   const list = SITE.englishQuotes;
   const q = list[Math.floor(Math.random() * list.length)];
   return el(`
-    <section class="card c-english span-3" id="english">
+    <section class="card c-english span-2" id="english">
       <p class="english-quote serif">${q.en}</p>
       <p class="english-zh">${q.zh}</p>
     </section>
   `);
+}
+
+const HIST_TYPE = { birth: '诞生', death: '逝世', event: '事件' };
+
+function renderHistory() {
+  return el(`
+    <section class="card c-history span-2" id="history">
+      <p class="label">📅 历史上的今天</p>
+      <div class="history-list" id="history-list"><p class="history-loading">加载中…</p></div>
+    </section>
+  `);
+}
+
+async function loadHistory() {
+  const list = document.getElementById('history-list');
+  if (!list) return;
+  try {
+    const res = await fetch('/api/onthisday', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error('status ' + res.status);
+    const data = await res.json();
+    const items = data.items || [];
+    if (items.length === 0) throw new Error('empty');
+    const label = document.querySelector('#history .label');
+    if (label && data.date) label.textContent = `📅 历史上的今天 · ${data.date}`;
+    list.innerHTML = '';
+    items.slice(0, 3).forEach((it) => {
+      const row = document.createElement('div');
+      row.className = 'history-item';
+      const yr = document.createElement('span');
+      yr.className = 'history-year';
+      yr.textContent = it.year;
+      const t = document.createElement('span');
+      t.className = 'history-title';
+      t.textContent = it.title;
+      row.append(yr, t);
+      if (it.type && HIST_TYPE[it.type]) {
+        const tag = document.createElement('span');
+        tag.className = 'history-type';
+        tag.textContent = HIST_TYPE[it.type];
+        row.append(tag);
+      }
+      list.appendChild(row);
+    });
+  } catch (e) {
+    list.innerHTML = '';
+    const p = document.createElement('p');
+    p.className = 'history-loading';
+    p.textContent = '历史加载失败';
+    list.appendChild(p);
+  }
 }
 
 function renderAihot() {
@@ -547,6 +597,7 @@ function init() {
   renderTools().forEach(c => bento.append(c));
   bento.append(renderInspire());
   bento.append(renderEnglish());
+  bento.append(renderHistory());
   bento.append(renderAihot());
   startClock();
   loadWeather();
@@ -556,6 +607,7 @@ function init() {
   initPomo();
   initInspire();
   loadInspire(); // 进页面即自动生成一条灵感，无需手动点击
+  loadHistory();
   renderFooter();
 }
 

@@ -17,6 +17,7 @@
   --c-articles: rgba(210, 224, 248, 0.22);
   --c-topbar: rgba(198, 232, 235, 0.24);
   --c-english: rgba(248, 238, 214, 0.30);
+  --c-history: rgba(212, 219, 230, 0.36);
   --c-aihot: rgba(250, 214, 205, 0.30);
   --c-dash: rgba(216, 224, 248, 0.30);
   --c-insp: rgba(250, 224, 232, 0.32);
@@ -237,6 +238,7 @@ a { color: inherit; text-decoration: none; }
   .c-articles { background: rgba(240, 244, 251, 0.9); }
   .c-topbar { background: rgba(222, 240, 241, 0.9); }
   .c-english { background: rgba(250, 242, 224, 0.9); }
+  .c-history { background: rgba(224, 229, 238, 0.9); }
   .c-aihot { background: rgba(251, 228, 222, 0.9); }
   .c-dash { background: rgba(224, 230, 250, 0.9); }
   .c-insp { background: rgba(251, 230, 238, 0.9); }
@@ -525,3 +527,24 @@ a:focus-visible {
   cursor: pointer; font-family: inherit; transition: opacity 0.2s var(--ease);
 }
 .insp-btn:disabled { opacity: 0.6; cursor: default; }
+
+/* ===== 历史上的今天卡 ===== */
+.c-history { background: var(--c-history); display: flex; flex-direction: column; }
+.c-history .label { color: #5a6b86; }
+.history-list { display: flex; flex-direction: column; }
+.history-loading { font-size: 0.82rem; color: var(--text-muted); }
+.history-item {
+  display: flex; align-items: baseline; gap: 8px; padding: 7px 0;
+  border-bottom: 1px solid rgba(120, 120, 150, 0.1); font-size: 0.8rem;
+}
+.history-item:last-child { border-bottom: none; }
+.history-year {
+  font-weight: 800; color: #5f7196; font-variant-numeric: tabular-nums;
+  flex-shrink: 0; min-width: 2.8em;
+}
+.history-title { flex: 1; color: var(--text-strong); line-height: 1.4; }
+.history-type {
+  font-size: 0.6rem; font-weight: 800; color: #5a6b86;
+  background: rgba(95, 113, 150, 0.12); padding: 1px 6px; border-radius: 8px;
+  flex-shrink: 0; white-space: nowrap; align-self: center;
+}

@@ -2,6 +2,7 @@
 // - /api/daily：服务器端代理 AIHOT 日报 API（绕开浏览器 CORS）
 // - /api/weather：服务器端代理 Open-Meteo 天气（温州鹿城，固定坐标）
 // - /api/inspire：调用 Cloudflare Workers AI 生成灵感
+// - /api/onthisday：服务端代理百度百科「历史上的今天」，筛当天 + 剥 HTML
 // - 其余所有请求：交给 public/ 里的静态资源
 export default {
   async fetch(request, env) {
@@ -65,6 +66,35 @@ export default {
         });
         const text = ((r && r.response) || '').trim();
         return Response.json({ text }, { headers: { 'cache-control': 'no-store' } });
+      } catch (e) {
+        return Response.json({ error: String(e) }, { status: 502 });
+      }
+    }
+
+    if (url.pathname === '/api/onthisday') {
+      try {
+        const parts = new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit',
+        }).formatToParts(new Date());
+        const mm = parts.find((p) => p.type === 'month').value;
+        const dd = parts.find((p) => p.type === 'day').value;
+        const upstream = await fetch(`https://baike.baidu.com/cms/home/eventsOnHistory/${mm}.json`, {
+          headers: { Accept: 'application/json', 'User-Agent': 'Zest-Homepage/1.0' },
+        });
+        if (!upstream.ok) {
+          return Response.json({ error: 'upstream ' + upstream.status }, { status: 502 });
+        }
+        const all = await upstream.json();
+        const day = (all[mm] && all[mm][mm + dd]) || [];
+        const stripTags = (s) => (s || '').replace(/<[^>]*>/g, '').trim();
+        const items = day.map((it) => ({ year: it.year, title: stripTags(it.title), type: it.type }));
+        return new Response(JSON.stringify({ date: `${mm}-${dd}`, items }), {
+          status: 200,
+          headers: {
+            'content-type': 'application/json; charset=utf-8',
+            'cache-control': 'public, max-age=3600',
+          },
+        });
       } catch (e) {
         return Response.json({ error: String(e) }, { status: 502 });
       }
