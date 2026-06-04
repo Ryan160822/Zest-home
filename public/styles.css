@@ -15,7 +15,7 @@
   --c-tool2: rgba(252, 232, 200, 0.26);
   --c-featured: rgba(200, 216, 245, 0.26);
   --c-articles: rgba(210, 224, 248, 0.22);
-  --c-clock: rgba(198, 232, 235, 0.24);
+  --c-topbar: rgba(198, 232, 235, 0.24);
   --c-english: rgba(248, 238, 214, 0.30);
   --c-aihot: rgba(250, 214, 205, 0.30);
   --c-dash: rgba(216, 224, 248, 0.30);
@@ -337,7 +337,7 @@ a:focus-visible {
 
 /* ===== 顶栏：时间 + 天气 ===== */
 .c-topbar {
-  background: var(--c-clock);
+  background: var(--c-topbar);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -486,6 +486,10 @@ a:focus-visible {
 }
 .task-item:hover .task-del { opacity: 0.6; }
 .task-del:hover { opacity: 1 !important; color: #b05a72; }
+/* 触屏设备没有 hover，删除按钮常显，否则手机上无法删除 */
+@media (hover: none) {
+  .task-del { opacity: 0.6; }
+}
 
 /* ===== 番茄钟 ===== */
 .pomo { text-align: center; padding: 10px 0 2px; }
