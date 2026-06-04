@@ -482,6 +482,60 @@ async function loadAihot(card) {
   }
 }
 
+// ===== 灵感生成器 =====
+const INSPIRE_CATS = [
+  { key: 'project', name: '项目点子' },
+  { key: 'writing', name: '写作选题' },
+  { key: 'random', name: '随便来点' },
+];
+let inspCat = 'project';
+
+function renderInspire() {
+  const cats = INSPIRE_CATS.map((c, i) =>
+    `<button class="insp-cat${i === 0 ? ' on' : ''}" data-cat="${c.key}">${c.name}</button>`
+  ).join('');
+  return el(`
+    <section class="card c-insp span-2" id="inspire">
+      <p class="label">💡 灵感生成器</p>
+      <div class="insp-cats">${cats}</div>
+      <div class="insp-out" id="insp-out">点下面按钮，给你来点灵感 ✦</div>
+      <button class="insp-btn" id="insp-btn">✨ 换一个灵感</button>
+    </section>
+  `);
+}
+
+async function loadInspire() {
+  const out = document.getElementById('insp-out');
+  const btn = document.getElementById('insp-btn');
+  if (!out) return;
+  out.classList.add('loading');
+  out.textContent = '生成中…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/inspire?category=' + encodeURIComponent(inspCat));
+    if (!res.ok) throw new Error('status ' + res.status);
+    const data = await res.json();
+    out.textContent = (data.text && data.text.trim()) || '灵感暂时枯竭了，再点一次试试';
+  } catch (e) {
+    out.textContent = '灵感暂时枯竭了，再点一次试试';
+  } finally {
+    out.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function initInspire() {
+  const btn = document.getElementById('insp-btn');
+  if (!btn) return;
+  btn.addEventListener('click', loadInspire);
+  document.querySelectorAll('.insp-cat').forEach(b =>
+    b.addEventListener('click', () => {
+      inspCat = b.dataset.cat;
+      document.querySelectorAll('.insp-cat').forEach(x => x.classList.toggle('on', x === b));
+    })
+  );
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -491,6 +545,7 @@ function init() {
   bento.append(renderDashboard());
   bento.append(renderHero());
   renderTools().forEach(c => bento.append(c));
+  bento.append(renderInspire());
   bento.append(renderEnglish());
   bento.append(renderAihot());
   startClock();
@@ -499,6 +554,7 @@ function init() {
   initTaskInput();
   renderTaskList();
   initPomo();
+  initInspire();
   renderFooter();
 }
 
