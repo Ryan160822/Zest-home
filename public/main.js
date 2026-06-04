@@ -507,7 +507,7 @@ function renderInspire() {
 async function loadInspire() {
   const out = document.getElementById('insp-out');
   const btn = document.getElementById('insp-btn');
-  if (!out) return;
+  if (!out || !btn) return;
   out.classList.add('loading');
   out.textContent = '生成中…';
   btn.disabled = true;

@@ -527,6 +527,6 @@ a:focus-visible {
 .insp-btn {
   margin-top: 12px; width: 100%; border: none; border-radius: 11px; padding: 11px;
   font-weight: 800; font-size: 0.85rem; background: #c06480; color: #fff;
-  cursor: pointer; font-family: inherit;
+  cursor: pointer; font-family: inherit; transition: opacity 0.2s var(--ease);
 }
 .insp-btn:disabled { opacity: 0.6; cursor: default; }
