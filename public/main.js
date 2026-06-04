@@ -5,7 +5,7 @@ const SITE = {
     name: 'Zest',
     role: 'Vibe Coder · Builder',
     bio: '喜欢用 AI 构建有趣的东西，分享工具、作品和思考。',
-    tags: ['🔧 工具', '✨ 作品', '📝 文章'],
+    tags: ['🔧 工具', '🍅 效率', '💡 灵感'],
   },
   tools: [
     { icon: '🔳', name: '二维码生成器', cls: 'c-tool1', href: 'tools/qr.html' },
@@ -542,8 +542,8 @@ function init() {
   bento.innerHTML = '';
   applyDailyReset();
   bento.append(renderTopbar());
-  bento.append(renderDashboard());
   bento.append(renderHero());
+  bento.append(renderDashboard());
   renderTools().forEach(c => bento.append(c));
   bento.append(renderInspire());
   bento.append(renderEnglish());
@@ -555,6 +555,7 @@ function init() {
   renderTaskList();
   initPomo();
   initInspire();
+  loadInspire(); // 进页面即自动生成一条灵感，无需手动点击
   renderFooter();
 }
 
