@@ -363,6 +363,7 @@ a:focus-visible {
 }
 .english-quote { font-size: 1.15rem; line-height: 1.4; color: var(--text-strong); margin-bottom: 8px; }
 .english-zh { font-size: 0.85rem; color: #9b6b27; }
+.english-from { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); margin-top: 10px; }
 
 /* ===== AIHOT 日报入口卡 ===== */
 .c-aihot {
