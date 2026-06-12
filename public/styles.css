@@ -225,13 +225,6 @@ body.sky-night .blob-4 { background: #c6cde9; }
 
 /* ===== 作品精选卡 ===== */
 .c-featured { background: var(--c-featured); }
-.featured::after {
-  content: '';
-  position: absolute; bottom: -20px; right: -20px;
-  width: 80px; height: 80px;
-  background: radial-gradient(circle, rgba(107, 143, 212, 0.25), transparent 70%);
-  border-radius: 50%;
-}
 .featured-badge {
   display: inline-block;
   font-size: 0.6rem; font-weight: 800; letter-spacing: 1px;
@@ -330,6 +323,7 @@ body.sky-night .blob-4 { background: #c6cde9; }
   .blob { animation: none; }
   .bento > .card { animation: none; }
   .card { transition: none; }
+  .card::after { transition: none; }
   .card:hover { transform: none; }
   .social-link { transition: none; }
   .social-link:hover { transform: none; }
