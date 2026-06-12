@@ -92,6 +92,21 @@ body.sky-night .blob-2 { background: #cbc1e0; }
 body.sky-night .blob-3 { background: #b5d2d4; }
 body.sky-night .blob-4 { background: #c6cde9; }
 
+/* ===== 时刻氛围：雨丝（在 .bg 背景层内、卡片后面） ===== */
+.rain { position: absolute; inset: 0; }
+.raindrop {
+  position: absolute;
+  top: -20px;
+  width: 1.5px;
+  height: 16px;
+  border-radius: 2px;
+  background: rgba(110, 130, 160, 0.35);
+  animation: rain-fall linear infinite;
+}
+@keyframes rain-fall {
+  to { transform: translateY(110vh); }
+}
+
 /* ===== Bento 网格 ===== */
 .bento {
   position: relative;
@@ -318,6 +333,7 @@ body.sky-night .blob-4 { background: #c6cde9; }
   .card:hover { transform: none; }
   .social-link { transition: none; }
   .social-link:hover { transform: none; }
+  .rain { display: none; }
 }
 
 /* ===== 键盘可访问性 ===== */

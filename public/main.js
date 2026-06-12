@@ -433,6 +433,7 @@ async function loadWeather() {
     const data = await res.json();
     const cur = data.current || {};
     const daily = data.daily || {};
+    if (AMBIENCE.rainOverride === null) ensureRain(isRainyCode(cur.weather_code));
     const w = WEATHER[cur.weather_code] || { l: '—', i: '🌡️' };
     iconEl.textContent = w.i;
     tempEl.textContent = (cur.temperature_2m != null ? Math.round(cur.temperature_2m) : '--') + '°';
@@ -663,6 +664,31 @@ function initAmbience() {
   applySky();
   setInterval(applySky, 60000);
   if (AMBIENCE.rainOverride !== null) ensureRain(AMBIENCE.rainOverride);
+}
+
+function isRainyCode(c) {
+  return (c >= 51 && c <= 67) || (c >= 80 && c <= 82) || (c >= 95 && c <= 99);
+}
+
+function ensureRain(on) {
+  const bg = document.querySelector('.bg');
+  if (!bg) return;
+  let rain = bg.querySelector('.rain');
+  if (on && !rain) {
+    rain = document.createElement('div');
+    rain.className = 'rain';
+    for (let i = 0; i < 24; i++) {
+      const d = document.createElement('span');
+      d.className = 'raindrop';
+      d.style.left = Math.random() * 100 + '%';
+      d.style.animationDuration = (0.9 + Math.random() * 0.8) + 's';
+      d.style.animationDelay = Math.random() * 1.5 + 's';
+      rain.appendChild(d);
+    }
+    bg.appendChild(rain);
+  } else if (!on && rain) {
+    rain.remove();
+  }
 }
 
 // ===== 渲染入口 =====
