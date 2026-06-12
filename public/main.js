@@ -622,6 +622,19 @@ function initInspire() {
   );
 }
 
+// ===== 跟手光晕：把光标位置写入卡片 CSS 变量 =====
+function initGlow() {
+  const bento = document.getElementById('bento');
+  if (!bento) return;
+  bento.addEventListener('mousemove', (e) => {
+    const card = e.target.closest('.card');
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -642,6 +655,7 @@ function init() {
   renderTaskList();
   initPomo();
   initInspire();
+  initGlow();
   loadInspire(); // 进页面即自动生成一条灵感，无需手动点击
   loadHistory();
   renderFooter();
