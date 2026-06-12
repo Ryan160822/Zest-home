@@ -635,6 +635,36 @@ function initGlow() {
   });
 }
 
+// ===== 轻氛围：时段调色 + 天气雨丝（URL 可覆盖：?sky=dawn|dusk|night|day&rain=1|0） =====
+const AMBIENCE = { skyOverride: null, rainOverride: null };
+
+function skyBucket(hour) {
+  if (hour >= 5 && hour < 10) return 'dawn';
+  if (hour >= 17 && hour < 20) return 'dusk';
+  if (hour >= 20 || hour < 5) return 'night';
+  return 'day';
+}
+
+function applySky() {
+  const hour = Number(new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Shanghai', hour: 'numeric', hourCycle: 'h23',
+  }).format(new Date()));
+  const bucket = AMBIENCE.skyOverride || skyBucket(hour);
+  document.body.classList.remove('sky-dawn', 'sky-dusk', 'sky-night');
+  if (bucket !== 'day') document.body.classList.add('sky-' + bucket);
+}
+
+function initAmbience() {
+  const p = new URLSearchParams(location.search);
+  const sky = p.get('sky');
+  if (['dawn', 'dusk', 'night', 'day'].includes(sky)) AMBIENCE.skyOverride = sky;
+  const rain = p.get('rain');
+  if (rain === '1' || rain === '0') AMBIENCE.rainOverride = rain === '1';
+  applySky();
+  setInterval(applySky, 60000);
+  if (AMBIENCE.rainOverride !== null) ensureRain(AMBIENCE.rainOverride);
+}
+
 // ===== 渲染入口 =====
 function init() {
   const bento = document.getElementById('bento');
@@ -649,6 +679,7 @@ function init() {
   bento.append(renderHistory());
   bento.append(renderAihot());
   startClock();
+  initAmbience();
   loadWeather();
   initDashboardTabs();
   initTaskInput();

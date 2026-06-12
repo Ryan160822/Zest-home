@@ -75,6 +75,23 @@ a { color: inherit; text-decoration: none; }
 .blob-3 { width: 200px; height: 200px; background: #d6eede; bottom: -50px; left: 28%; }
 .blob-4 { width: 180px; height: 180px; background: #f4ecd6; top: 16%; left: 44%; }
 
+/* ===== 时刻氛围：时段调色（只动背景与光斑，卡片不动） ===== */
+body.sky-dawn { --bg-gradient: linear-gradient(135deg, #fbf5ea 0%, #fdf1e8 50%, #f4f7ee 100%); }
+body.sky-dawn .blob-1 { background: #f0ddc2; }
+body.sky-dawn .blob-2 { background: #f4d6cd; }
+body.sky-dawn .blob-3 { background: #d9ecd4; }
+body.sky-dawn .blob-4 { background: #f6e9c9; }
+body.sky-dusk { --bg-gradient: linear-gradient(135deg, #f9ede2 0%, #f5e2e9 50%, #ebe4f6 100%); }
+body.sky-dusk .blob-1 { background: #f2cfae; }
+body.sky-dusk .blob-2 { background: #eac3d8; }
+body.sky-dusk .blob-3 { background: #cfc2ea; }
+body.sky-dusk .blob-4 { background: #f0d6bb; }
+body.sky-night { --bg-gradient: linear-gradient(135deg, #e2e6f1 0%, #e5e2ef 50%, #dde5ec 100%); }
+body.sky-night .blob-1 { background: #b7c5e7; }
+body.sky-night .blob-2 { background: #cbc1e0; }
+body.sky-night .blob-3 { background: #b5d2d4; }
+body.sky-night .blob-4 { background: #c6cde9; }
+
 /* ===== Bento 网格 ===== */
 .bento {
   position: relative;
