@@ -33,6 +33,7 @@ node --check worker.js
 - **`store`**（localStorage，key `zest.dashboard`，try/catch 包裹）是唯一持久化，无后端无账号。
 - `el(html)` 把模板串变 DOM 节点；每张卡是一个 `renderX()`；**`init()` 里 append 的顺序就是布局**。
 - `styles.css`：`:root` 里玻璃 token + 每张卡一个 `--c-*` 色；bento 网格 `.span-*`/`.row-2`；断点 768/480。
+- 动效：卡片入场（纯 CSS nth-child 错峰）、`initGlow()` 跟手光晕（CSS 变量 `--mx/--my`）、`initAmbience()` 时段调色 + 天气雨丝（URL 调试：`?sky=dawn|dusk|night|day&rain=1|0`），全部尊重 prefers-reduced-motion。
 - `public/tools/`：独立子页（二维码、Prompt 库），复用根 `../styles.css` + 各自 `tools.css`/JS。
 
 ## 易踩的约定
