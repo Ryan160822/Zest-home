@@ -13,8 +13,6 @@
   /* 分类色（有色玻璃） */
   --c-tool1: rgba(252, 212, 222, 0.22);
   --c-tool2: rgba(252, 232, 200, 0.26);
-  --c-featured: rgba(200, 216, 245, 0.26);
-  --c-articles: rgba(210, 224, 248, 0.22);
   --c-topbar: rgba(198, 232, 235, 0.24);
   --c-english: rgba(248, 238, 214, 0.30);
   --c-history: rgba(212, 219, 230, 0.36);
@@ -223,44 +221,12 @@ body.sky-night .blob-4 { background: #c6cde9; }
 .c-tool2 .label { color: #9b6b27; }
 .c-tool2 .tool-name { color: #8a5808; }
 
-/* ===== 作品精选卡 ===== */
-.c-featured { background: var(--c-featured); }
-.featured-badge {
-  display: inline-block;
-  font-size: 0.6rem; font-weight: 800; letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 2px 8px; border-radius: 12px;
-  background: rgba(107, 143, 212, 0.85); color: #fff;
-  margin-bottom: 8px;
-}
-.featured-title { font-size: 1.1rem; color: #2a3a5e; margin-bottom: 4px; }
-.featured-desc { font-size: 0.78rem; line-height: 1.5; color: #48587e; }
-
-/* ===== 文章卡 ===== */
-.c-articles { background: var(--c-articles); }
-.c-articles .label { color: #5a72b0; }
-.article-list { list-style: none; }
-.article-item {
-  display: flex; gap: 10px;
-  padding: 7px 0;
-  font-size: 0.78rem;
-  border-bottom: 1px solid rgba(120, 120, 150, 0.12);
-}
-.article-item:last-child { border-bottom: none; }
-.article-date {
-  font-weight: 800; white-space: nowrap;
-  color: #5e71bb; min-width: 2.2em;
-}
-.article-title { font-weight: 600; color: var(--text-strong); line-height: 1.4; }
-
 /* ===== 玻璃降级（不支持 backdrop-filter 时提高不透明度保证可读） ===== */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .card { background: rgba(255, 255, 255, 0.85); }
   .hero { background: rgba(255, 255, 255, 0.88); }
   .c-tool1 { background: rgba(252, 228, 232, 0.9); }
   .c-tool2 { background: rgba(254, 240, 219, 0.9); }
-  .c-featured { background: rgba(227, 236, 251, 0.9); }
-  .c-articles { background: rgba(240, 244, 251, 0.9); }
   .c-topbar { background: rgba(222, 240, 241, 0.9); }
   .c-english { background: rgba(250, 242, 224, 0.9); }
   .c-history { background: rgba(224, 229, 238, 0.9); }
